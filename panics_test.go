@@ -13,7 +13,7 @@ import (
 	"testing"
 )
 
-const exampleCode = `cGFja2FnZSBtYWluCgppbXBvcnQgImdpdGh1Yi5jb20veXVuZ2lubmFuZXQvZnViYXIiCgpmdW5jIG1haW4oKSB7CglkZWZlciBmdW5jKCkgewoJCXIgOj0gcmVjb3ZlcigpCgkJZnViYXIuSGFuZGxlUGFuaWNXaXRoRXhpdChyKQoJfSgpCglzdHJzIDo9IFtdc3RyaW5neyIwIiwgIjEiLCAiMiJ9CglwcmludGxuKHN0cnNbM10pCn0K`
+const exampleCode = `cGFja2FnZSBtYWluCgppbXBvcnQgImdpdGh1Yi5jb20veXVuZ2lubmFuZXQvZnViYXIiCgpmdW5jIG1haW4oKSB7CglkZWZlciBmdW5jKCkgewoJCXIgOj0gcmVjb3ZlcigpCgkJZnViYXIuSGFuZGxlUGFuaWNXaXRoRXhpdChyKQoJCS8vIG9yLCByZWNvdmVyIGFuZCBkb24ndCBleGl0OgoJCS8vIGZ1YmFyLkhhbmRsZVBhbmljKHIpCgl9KCkKCXByaW50bG4oW11zdHJpbmd7IjAiLCAiMSIsICIyIn1bM10pCn0K`
 
 func getExampleCode() []byte {
 	ba, _ := base64.StdEncoding.DecodeString(exampleCode)
@@ -164,7 +164,7 @@ func TestExampleCode(t *testing.T) {
 	})
 
 	t.Run("exit_0", func(t *testing.T) {
-		code := bytes.ReplaceAll(getExampleCode(), []byte("strs[3]"), []byte("strs[2]"))
+		code := bytes.ReplaceAll(getExampleCode(), []byte("}[3])"), []byte("}[2])"))
 
 		t.Logf("writing example code to %s:\n%s\n", tfile, code)
 
@@ -207,7 +207,7 @@ func TestExampleCode(t *testing.T) {
 			t.Error("expected example code to panic and return an error")
 		}
 
-		t.Logf("output:\n%s", string(output))
+		t.Logf("output:\n\n\n\n%s\n\n\n\n", string(output))
 
 		if !strings.Contains(err.Error(), "exit status 1") {
 			t.Error("expected example code to exit with status 1")

@@ -3,3 +3,4 @@ test:
 
 gif:
 	vhs assets/fubar.tape
+	git add assets/fubar.gif

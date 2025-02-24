@@ -12,13 +12,12 @@ import "github.com/yunginnanet/fubar"
 func main() {
 	defer func() {
 		r := recover()
-		fubar.HandlePanic(r)
-		// or, exit status 1 after printing:
-		// fubar.HandlePanicWithExit(r)
+		fubar.HandlePanicWithExit(r)
+		// or, recover and don't exit:
+		// fubar.HandlePanic(r)
 	}()
 	println([]string{"0", "1", "2"}[3])
 }
-
 ```
 
 ### Output
