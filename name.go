@@ -3,6 +3,7 @@ package fubar
 import (
 	"bytes"
 	"os"
+	"path"
 	"runtime/debug"
 	"strings"
 )
@@ -21,7 +22,7 @@ func tail(s string) string {
 	}
 }
 
-func goModName() string {
+func goModName(arg0 string) string {
 	d, err := os.ReadFile("./go.mod")
 	if err != nil {
 		return ""
@@ -30,6 +31,9 @@ func goModName() string {
 		return ""
 	}
 	ds := bytes.Split(bytes.Split(d, module)[1], nl)
+	if arg0 != "" && !strings.Contains(string(ds[0]), arg0) {
+		return ""
+	}
 	return string(bytes.TrimPrefix(ds[0], nl))
 
 }
@@ -42,11 +46,22 @@ func pathName() string {
 	return p
 }
 
+func myArg0() string {
+	return strings.TrimSuffix(path.Base(os.Args[0]), path.Ext(os.Args[0]))
+
+}
+
 func pathOrGomodName() string {
 	var s string
-	if s = goModName(); s != "" {
+
+	if s = goModName(myArg0()); s != "" {
 		return s
 	}
+
+	if s = myArg0(); s != "" {
+		return s
+	}
+
 	return pathName()
 }
 
@@ -56,7 +71,7 @@ func getName() string {
 	switch {
 	case bi.Main.Path != "":
 		n = bi.Main.Path
-	case bi.Path != "":
+	case strings.ReplaceAll(bi.Path, "command-line-arguments", "") != "":
 		n = bi.Path
 	default:
 		n = pathOrGomodName()

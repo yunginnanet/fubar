@@ -13,7 +13,7 @@ func TestName(t *testing.T) {
 	var need string
 	t.Run("goModName", func(t *testing.T) {
 		need = "github.com/yunginnanet/fubar"
-		if gmn = goModName(); gmn != need {
+		if gmn = goModName(""); gmn != need {
 			t.Errorf("\ngot: '%s'\nexpected: '%s'", gmn, need)
 		}
 		t.Log(gmn)

@@ -92,6 +92,26 @@ func (p *Panic) Stdout() {
 	_, _ = os.Stdout.WriteString(p.String())
 }
 
+func HandlePanic(r interface{}) bool {
+	if r == nil {
+		return false
+	}
+	p := NewPanic(r)
+	p.Stderr()
+	return true
+}
+
+//goland:noinspection GoUnusedExportedFunction (unit test compiles exe that uses and tests function)
+func HandlePanicWithExit(r interface{}) bool {
+	if r == nil {
+		return false
+	}
+	p := NewPanic(r)
+	p.Stderr()
+	os.Exit(1)
+	return true // unreachable
+}
+
 func (p *Panic) delayedHardPanic() {
 	go func() {
 		// let our stacktrace print before we panic
